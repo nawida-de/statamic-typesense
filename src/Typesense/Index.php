@@ -29,10 +29,9 @@ class Index extends BaseIndex
 
     public function insert($document)
     {
-        $id = $document->id();
         $fields = $this->prepareFields($document);
 
-        $this->getIndex()->documents[$id]->update($fields);
+        $this->getIndex()->documents->create($fields);
     }
 
     public function delete($document)
@@ -123,16 +122,16 @@ class Index extends BaseIndex
                     // typesense requires each search to specify the query_by fields,
                     // use the fields specified in the config file for each index.
                     $query_by = implode(', ', $item['fields']);
-                    
+
                     $search_query = [
                         'collection' => $key,
                         'query_by' => $query_by,
                     ];
-                    
+
                     if (str_contains($query_by, 'content')) {
                         $search_query['exclude_fields'] = 'content';
                     }
-                    
+
                     return $search_query;
                 })->values()->all(),
             ];
