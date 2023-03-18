@@ -31,7 +31,7 @@ class Index extends BaseIndex
     {
         $fields = $this->prepareFields($document);
 
-        $this->getIndex()->documents->create($fields);
+        $this->getIndex()->documents->upsert($fields);
     }
 
     public function delete($document)
