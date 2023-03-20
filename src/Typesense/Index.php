@@ -37,7 +37,11 @@ class Index extends BaseIndex
     public function delete($document)
     {
         $id = $document->id();
-        $this->getIndex()->documents[$id]->delete();
+        try {
+            $this->getIndex()->documents[$id]->delete();
+        } catch (ObjectNotFound) {
+            return;
+        }
     }
 
     public function exists()
